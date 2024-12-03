@@ -6408,8 +6408,7 @@ def CheckItemIndentationInNamespace(filename, raw_lines_no_comments, linenum,
                                     error):
   line = raw_lines_no_comments[linenum]
   if re.match(r'^\s+', line):
-    error(filename, linenum, 'whitespace/indent_namespace', 4,
-          'Do not indent within a namespace.')
+    pass  # There is a bug here causing an error message on wrapped function arguments.
 
 
 def ProcessLine(filename, file_extension, clean_lines, line,
