@@ -194,7 +194,7 @@ Syntax: cpplint.py [--verbose=#] [--output=emacs|eclipse|vs7|junit|sed|gsed]
 
     linelength=digits
       This is the allowed line length for the project. The default value is
-      80 characters.
+      100 characters.
 
       Examples:
         --linelength=120
@@ -251,7 +251,7 @@ Syntax: cpplint.py [--verbose=#] [--output=emacs|eclipse|vs7|junit|sed|gsed]
       set noparent
       filter=+filter1,-filter2,...
       exclude_files=regex
-      linelength=80
+      linelength=100
       root=subdir
       headers=x,y,...
 
@@ -935,7 +935,7 @@ _quiet = False
 
 # The allowed line length of files.
 # This is set by --linelength flag.
-_line_length = 80
+_line_length = 100
 
 # This allows to use different include order rule than default
 _include_order = "default"
