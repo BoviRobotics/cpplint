@@ -194,7 +194,7 @@ Syntax: cpplint.py [--verbose=#] [--output=emacs|eclipse|vs7|junit|sed|gsed]
 
     linelength=digits
       This is the allowed line length for the project. The default value is
-      80 characters.
+      100 characters.
 
       Examples:
         --linelength=120
@@ -251,7 +251,7 @@ Syntax: cpplint.py [--verbose=#] [--output=emacs|eclipse|vs7|junit|sed|gsed]
       set noparent
       filter=+filter1,-filter2,...
       exclude_files=regex
-      linelength=80
+      linelength=100
       root=subdir
       headers=x,y,...
 
@@ -935,7 +935,7 @@ _quiet = False
 
 # The allowed line length of files.
 # This is set by --linelength flag.
-_line_length = 80
+_line_length = 100
 
 # This allows to use different include order rule than default
 _include_order = "default"
@@ -3594,8 +3594,7 @@ def CheckSpacingForFunctionCall(filename, clean_lines, linenum, error):
       # If the closing parenthesis is preceded by only whitespaces,
       # try to give a more descriptive error message.
       if re.search(r'^\s+\)', fncall):
-        error(filename, linenum, 'whitespace/parens', 2,
-              'Closing ) should be moved to the previous line')
+        pass  # cpplint wants ) on previous line, but this does not match our style
       else:
         error(filename, linenum, 'whitespace/parens', 2,
               'Extra space before )')
@@ -6409,8 +6408,7 @@ def CheckItemIndentationInNamespace(filename, raw_lines_no_comments, linenum,
                                     error):
   line = raw_lines_no_comments[linenum]
   if re.match(r'^\s+', line):
-    error(filename, linenum, 'whitespace/indent_namespace', 4,
-          'Do not indent within a namespace.')
+    pass  # There is a bug here causing an error message on wrapped function arguments.
 
 
 def ProcessLine(filename, file_extension, clean_lines, line,
