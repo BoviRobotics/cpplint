@@ -2534,51 +2534,7 @@ def CheckForHeaderGuard(filename, clean_lines, error, cppvar):
           f'No #ifndef header guard found, suggested CPP variable is: {cppvar}')
     return
 
-  # The guard should be PATH_FILE_H_, but we also allow PATH_FILE_H__
-  # for backward compatibility.
-  if ifndef != cppvar:
-    error_level = 0
-    if ifndef != cppvar + '_':
-      error_level = 5
-
-    ParseNolintSuppressions(filename, raw_lines[ifndef_linenum], ifndef_linenum,
-                            error)
-    error(filename, ifndef_linenum, 'build/header_guard', error_level,
-          f'#ifndef header guard has wrong style, please use: {cppvar}')
-
-  # Check for "//" comments on endif line.
-  ParseNolintSuppressions(filename, raw_lines[endif_linenum], endif_linenum,
-                          error)
-  match = re.match(r'#endif\s*//\s*' + cppvar + r'(_)?\b', endif)
-  if match:
-    if match.group(1) == '_':
-      # Issue low severity warning for deprecated double trailing underscore
-      error(filename, endif_linenum, 'build/header_guard', 0,
-            f'#endif line should be "#endif  // {cppvar}"')
-    return
-
-  # Didn't find the corresponding "//" comment.  If this file does not
-  # contain any "//" comments at all, it could be that the compiler
-  # only wants "/**/" comments, look for those instead.
-  no_single_line_comments = True
-  for i in range(1, len(raw_lines) - 1):
-    line = raw_lines[i]
-    if re.match(r'^(?:(?:\'(?:\.|[^\'])*\')|(?:"(?:\.|[^"])*")|[^\'"])*//', line):
-      no_single_line_comments = False
-      break
-
-  if no_single_line_comments:
-    match = re.match(r'#endif\s*/\*\s*' + cppvar + r'(_)?\s*\*/', endif)
-    if match:
-      if match.group(1) == '_':
-        # Low severity warning for double trailing underscore
-        error(filename, endif_linenum, 'build/header_guard', 0,
-              f'#endif line should be "#endif  /* {cppvar} */"')
-      return
-
-  # Didn't find anything
-  error(filename, endif_linenum, 'build/header_guard', 5,
-        f'#endif line should be "#endif  // {cppvar}"')
+  # Skip header guard name checks, as cpplint's suggestions are very long in our codebase.
 
 
 def CheckHeaderFileIncluded(filename, include_state, error):
